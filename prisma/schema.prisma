@@ -17,7 +17,6 @@ model Users {
   createdAt    DateTime @default(now())
   updatedAt    DateTime
   profileImage String?
-  randomValue  String?
 }
 
 enum Role {
