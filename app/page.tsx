@@ -14,6 +14,7 @@ export default async function Home() {
           <h1>Name: {session.user.name}</h1>
           <h1>Email: {session.user.email}</h1>
           <h1>Image: {session.user.image ? session.user.image : "No image"}</h1>
+          <h1>Role: {session.user?.role}</h1>
           <LogoutButton />
         </>
       ) : (
