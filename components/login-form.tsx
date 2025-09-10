@@ -34,7 +34,7 @@ export function LoginForm({
     try {
       setLoading(true);
       await signIn("credentials", {
-        callbackUrl: "/",
+        callbackUrl: "/dashboard",
         redirect: true,
         email: data.email,
         password: data.password,
@@ -68,7 +68,9 @@ export function LoginForm({
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  onClick={() =>
+                    signIn("google", { callbackUrl: "/dashboard" })
+                  }
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path

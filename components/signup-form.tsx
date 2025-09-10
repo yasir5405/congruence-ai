@@ -41,7 +41,7 @@ export function SignupForm({
       await signIn("credentials", {
         email: data.email,
         password: data.password,
-        callbackUrl: "/",
+        callbackUrl: "/dashboard",
         redirect: true,
       });
     } catch (error: any) {
@@ -75,7 +75,9 @@ export function SignupForm({
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  onClick={() =>
+                    signIn("google", { callbackUrl: "/dashboard" })
+                  }
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
