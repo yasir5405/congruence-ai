@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/sidebar";
 import ProfileBox from "./ProfileBox";
 import { type Session } from "next-auth";
+import ChatSearch from "./ChatSearch";
+import { Separator } from "./ui/separator";
+import SidebarButtons from "./SidebarButtons";
 
 // This is sample data.
 const data = {
@@ -165,8 +168,11 @@ export function AppSidebar({
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <ProfileBox session={session} />
+        <ChatSearch />
+        <Separator />
       </SidebarHeader>
       <SidebarContent>
+        <SidebarButtons />
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
