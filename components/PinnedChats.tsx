@@ -12,7 +12,7 @@ const PinnedChats = ({ chats }: { chats: string[] }) => {
       <SidebarGroupLabel>Pinned Chats</SidebarGroupLabel>
       <SidebarMenu>
         {chats.map((chat, idx) => (
-          <SidebarMenuItem>
+          <SidebarMenuItem key={idx}>
             <SidebarMenuButton>
               <p className="truncate">{chat}</p>
             </SidebarMenuButton>

@@ -12,7 +12,7 @@ const ChatHistory = ({ chats }: { chats: string[] }) => {
       <SidebarGroupLabel>Chat History</SidebarGroupLabel>
       <SidebarMenu>
         {chats.map((chat, idx) => (
-          <SidebarMenuItem>
+          <SidebarMenuItem key={idx}>
             <SidebarMenuButton>
               <p className="truncate">{chat}</p>
             </SidebarMenuButton>
