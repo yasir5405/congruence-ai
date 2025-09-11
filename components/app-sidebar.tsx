@@ -2,19 +2,16 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
+  AppWindowMac,
   Frame,
-  GalleryVerticalEnd,
+  LibrarySquare,
+  type LucideIcon,
   Map,
+  MessageCircle,
   PieChart,
-  Settings2,
-  SquareTerminal,
+  Plus,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -29,118 +26,22 @@ import { type Session } from "next-auth";
 import ChatSearch from "./ChatSearch";
 import { Separator } from "./ui/separator";
 import SidebarButtons from "./SidebarButtons";
+import PinnedChats from "./PinnedChats";
+import ChatHistory from "./ChatHistory";
+import { Button } from "./ui/button";
 
-// This is sample data.
+export interface ButtonPropsInterface {
+  name: string;
+  icon: LucideIcon;
+  url: string;
+}
+
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
   projects: [
     {
       name: "Design Engineering",
@@ -160,6 +61,27 @@ const data = {
   ],
 };
 
+const items: ButtonPropsInterface[] = [
+  { name: "Chats", icon: MessageCircle, url: "/dashboard/chats" },
+  {
+    name: "Libarary",
+    icon: LibrarySquare,
+    url: "/dashboard/library",
+  },
+  {
+    name: "Apps",
+    icon: AppWindowMac,
+    url: "/dashboard/apps",
+  },
+];
+
+const pinnedChats: string[] = [
+  "Hello world project",
+  "Calculator Project",
+  "How to earn money as a freelancer",
+  "How to get a jobs in 2025 as a full stack developer",
+];
+
 export function AppSidebar({
   session,
   ...props
@@ -172,12 +94,16 @@ export function AppSidebar({
         <Separator />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarButtons />
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <SidebarButtons items={items} />
+        <PinnedChats chats={pinnedChats} />
+        <ChatHistory chats={pinnedChats} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {/* <NavUser user={data.user} /> */}
+        <Button>
+          <Plus />
+          Start new chat
+        </Button>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
