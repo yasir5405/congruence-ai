@@ -33,7 +33,7 @@ const ChatSearch = () => {
   return (
     <form onSubmit={handleSubmit(searchChat)} className="relative">
       {state === "collapsed" ? (
-        <SidebarMenuButton asChild tooltip="Search">
+        <SidebarMenuButton asChild tooltip="Search chats">
           <button
             type="button"
             className="flex items-center justify-center p-2"

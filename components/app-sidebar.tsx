@@ -3,23 +3,20 @@
 import * as React from "react";
 import {
   AppWindowMac,
-  Frame,
   LibrarySquare,
   type LucideIcon,
-  Map,
   MessageCircle,
-  PieChart,
   Plus,
 } from "lucide-react";
 
-import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import ProfileBox from "./ProfileBox";
 import { type Session } from "next-auth";
@@ -36,35 +33,10 @@ export interface ButtonPropsInterface {
   url: string;
 }
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
-
 const items: ButtonPropsInterface[] = [
   { name: "Chats", icon: MessageCircle, url: "/dashboard/chats" },
   {
-    name: "Libarary",
+    name: "Library",
     icon: LibrarySquare,
     url: "/dashboard/library",
   },
@@ -86,6 +58,7 @@ export function AppSidebar({
   session,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { session: Session }) {
+  const { state } = useSidebar();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -99,11 +72,13 @@ export function AppSidebar({
         <ChatHistory chats={pinnedChats} />
       </SidebarContent>
       <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
-        <Button>
+        <SidebarMenuButton
+          tooltip="Start new chat"
+          className="bg-primary text-white hover:bg-primary hover:text-white flex items-center justify-center cursor-pointer"
+        >
           <Plus />
-          Start new chat
-        </Button>
+          {state !== "collapsed" && "Start new chat"}
+        </SidebarMenuButton>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -16,7 +16,7 @@ const SidebarButtons = ({ items }: { items: ButtonPropsInterface[] }) => {
           <SidebarMenuItem key={idx}>
             <SidebarMenuButton
               onClick={() => router.push(item.url)}
-              tooltip={"Chats"}
+              tooltip={item.name}
             >
               <item.icon />
               <p>{item.name}</p>
