@@ -39,7 +39,7 @@ const UserPromptInput = () => {
     >
       <textarea
         placeholder="How can I help you?"
-        className="resize-none w-full p-2 placeholder:text-sm outline-none text-sm"
+        className="resize-none w-full p-2 placeholder:text-base outline-none text-base"
         {...register("prompt", { required: true })}
         onKeyDown={onKeyDown}
       />
