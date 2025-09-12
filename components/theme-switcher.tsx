@@ -7,6 +7,7 @@ import type { JSX } from "react";
 import React, { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 function ThemeOption({
   icon,
@@ -49,14 +50,17 @@ const THEME_OPTIONS = [
   {
     icon: <MonitorIcon />,
     value: "system",
+    tooltip: "System",
   },
   {
     icon: <SunIcon />,
     value: "light",
+    tooltip: "Light",
   },
   {
     icon: <MoonStarIcon />,
     value: "dark",
+    tooltip: "Dark",
   },
 ];
 
@@ -79,17 +83,23 @@ function ThemeSwitcher() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="inline-flex items-center overflow-hidden rounded-full bg-white ring-1 ring-zinc-200 ring-inset dark:bg-zinc-950 dark:ring-zinc-700"
+      className="inline-flex items-center overflow-hidden rounded-full bg-transparent ring-1 ring-zinc-200 ring-inset border-input dark:ring-zinc-700 dark:bg-input/30"
       role="radiogroup"
     >
       {THEME_OPTIONS.map((option) => (
-        <ThemeOption
-          key={option.value}
-          icon={option.icon}
-          value={option.value}
-          isActive={theme === option.value}
-          onClick={setTheme}
-        />
+        <Tooltip key={option.value}>
+          <TooltipTrigger asChild>
+            <div tabIndex={0}>
+              <ThemeOption
+                icon={option.icon}
+                value={option.value}
+                isActive={theme === option.value}
+                onClick={setTheme}
+              />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>{option.tooltip}</TooltipContent>
+        </Tooltip>
       ))}
     </motion.div>
   );

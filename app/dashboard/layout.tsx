@@ -1,4 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import DashboardHeader from "@/components/DashboardHeader";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarMenuButton,
@@ -26,10 +28,9 @@ const DashboardLayout = async ({
         <AppSidebar session={session} />
         <SidebarInset>
           <div className="flex flex-col h-dvh px-4 md:px-20 lg:px-44 py-3">
-            <div className="w-full flex items-center">
-              <SidebarTrigger className="md:hidden lg:hidden" />
-            </div>
-            <div className="flex-1 overflow-y-auto">{children}</div>
+            <DashboardHeader />
+            <Separator />
+            <div className="flex-1 overflow-y-auto mb-3">{children}</div>
             <UserPromptInput />
           </div>
         </SidebarInset>

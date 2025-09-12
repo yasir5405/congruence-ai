@@ -13,6 +13,7 @@ import {
 import { Session } from "next-auth";
 import Image from "next/image";
 import ProfileSettingsDropdown from "./ProfileSettingsDropdown";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 const ProfileBox = ({ session }: { session: Session }) => {
   const { isMobile, state, toggleSidebar } = useSidebar();
@@ -47,10 +48,22 @@ const ProfileBox = ({ session }: { session: Session }) => {
         </SidebarMenuButton>
         {state === "expanded" && (
           <div className="flex items-center data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground gap-2">
-            <div className="p-2 -m-2 hover:bg-muted rounded-md">
-              <ProfileSettingsDropdown session={session} />
-            </div>
-            <SidebarTrigger className="cursor-pointer hover:bg-transparent hover:text-inherit" />
+            <Tooltip>
+              <div className="p-2 -m-2 hover:bg-muted rounded-md">
+                <TooltipTrigger asChild>
+                  <div tabIndex={0}>
+                    <ProfileSettingsDropdown session={session} />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>Account Settings</TooltipContent>
+              </div>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarTrigger className="cursor-pointer hover:bg-transparent hover:text-inherit" />
+              </TooltipTrigger>
+              <TooltipContent>Close Sidebar</TooltipContent>
+            </Tooltip>
           </div>
         )}
       </SidebarMenuItem>
