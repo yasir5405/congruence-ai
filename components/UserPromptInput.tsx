@@ -19,7 +19,10 @@ interface UserPromptInput {
 }
 
 const UserPromptInput = () => {
-  const { register, handleSubmit } = useForm<UserPromptInput>();
+  const { register, handleSubmit, watch } = useForm<UserPromptInput>();
+
+  const watchPromptValue = watch("prompt", "");
+  const disabled = !watchPromptValue.trim();
 
   const handlePromptSubmission = async ({ prompt }: UserPromptInput) => {
     console.log(prompt);
@@ -39,14 +42,14 @@ const UserPromptInput = () => {
     >
       <textarea
         placeholder="How can I help you?"
-        className="resize-none w-full p-2 placeholder:text-base outline-none text-base"
+        className="resize-none w-full p-2 placeholder:text-base placeholder:md:text-sm outline-none text-base md:text-sm"
         {...register("prompt", { required: true })}
         onKeyDown={onKeyDown}
       />
       <Separator />
-      <div className="w-full flex items-center justify-between">
-        <div className="flex gap-2 items-center p-1.5">
-          <TooltipProvider>
+      <TooltipProvider>
+        <div className="w-full flex items-center justify-between">
+          <div className="flex gap-2 items-center p-1.5">
             <Tooltip>
               <TooltipTrigger asChild>
                 <div tabIndex={0}>
@@ -79,14 +82,25 @@ const UserPromptInput = () => {
               </TooltipTrigger>
               <TooltipContent>More</TooltipContent>
             </Tooltip>
-          </TooltipProvider>
-        </div>
+          </div>
 
-        <Button type="submit">
-          <SendIcon />
-          Send message
-        </Button>
-      </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div tabIndex={0}>
+                <Button disabled={disabled} type="submit">
+                  <SendIcon />
+                  Send message
+                </Button>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              {disabled
+                ? "Please enter a prompt to send message."
+                : "Send message"}
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
     </form>
   );
 };
