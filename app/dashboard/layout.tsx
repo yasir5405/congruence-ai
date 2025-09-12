@@ -25,7 +25,7 @@ const DashboardLayout = async ({
       <SidebarProvider>
         <AppSidebar session={session} />
         <SidebarInset>
-          <div className="flex flex-col h-screen px-4 md:px-20 lg:px-44 py-3">
+          <div className="flex flex-col h-dvh px-4 md:px-20 lg:px-44 py-3">
             <div className="w-full flex items-center">
               <SidebarTrigger className="md:hidden lg:hidden" />
               {/* <h1>Welcome {session.user.name?.split(" ")[0]}</h1> */}
