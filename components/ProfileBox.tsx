@@ -46,7 +46,7 @@ const ProfileBox = ({ session }: { session: Session }) => {
           )}
         </SidebarMenuButton>
         {state === "expanded" && (
-          <div className="flex items-center data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+          <div className="flex items-center data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground gap-2">
             <div className="p-2 -m-2 hover:bg-muted rounded-md">
               <ProfileSettingsDropdown session={session} />
             </div>
