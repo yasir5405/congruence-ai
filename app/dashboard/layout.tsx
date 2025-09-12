@@ -1,9 +1,11 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
+  SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import UserPromptInput from "@/components/UserPromptInput";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -22,12 +24,15 @@ const DashboardLayout = async ({
     <div>
       <SidebarProvider>
         <AppSidebar session={session} />
-        <SidebarInset className="p-2">
-          <div className="w-full flex items-center">
-            <SidebarTrigger className="md:hidden lg:hidden" />
-            <h1>Welcome {session.user.name?.split(" ")[0]}</h1>
+        <SidebarInset>
+          <div className="flex flex-col h-screen px-4 md:px-20 lg:px-44 py-3">
+            <div className="w-full flex items-center">
+              <SidebarTrigger className="md:hidden lg:hidden" />
+              {/* <h1>Welcome {session.user.name?.split(" ")[0]}</h1> */}
+            </div>
+            <div className="flex-1 overflow-y-auto">{children}</div>
+            <UserPromptInput />
           </div>
-          {children}
         </SidebarInset>
       </SidebarProvider>
     </div>
