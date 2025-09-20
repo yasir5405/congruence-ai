@@ -16,21 +16,27 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginInput, loginInputSchema } from "@/lib/inputValidation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { register, handleSubmit } = useForm<{
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: inputErrors },
+  } = useForm<{
     email: string;
     password: string;
-  }>();
+  }>({ resolver: zodResolver(loginInputSchema) });
 
   const [loading, setLoading] = useState<boolean>(false);
   const params = useSearchParams();
   const errors = params.get("error");
 
-  const loginHandler = async (data: { email: string; password: string }) => {
+  const loginHandler = async (data: loginInput) => {
     try {
       setLoading(true);
       await signIn("credentials", {
@@ -94,7 +100,16 @@ export function LoginForm({
                     type="email"
                     placeholder="m@example.com"
                     {...register("email", { required: true })}
+                    className={cn(
+                      inputErrors.email &&
+                        "border-red-500 ring-1 ring-red-500 focus-visible:ring-red-400"
+                    )}
                   />
+                  {inputErrors.email && (
+                    <p className="text-sm text-red-300">
+                      {inputErrors.email.message}
+                    </p>
+                  )}
                 </div>
                 <div className="grid gap-3">
                   <div className="flex items-center">
@@ -110,7 +125,16 @@ export function LoginForm({
                     id="password"
                     type="password"
                     {...register("password", { required: true })}
+                    className={cn(
+                      inputErrors.password &&
+                        "border-red-500 ring-1 ring-red-500 focus-visible:ring-red-400"
+                    )}
                   />
+                  {inputErrors.password && (
+                    <p className="text-sm text-red-300">
+                      {inputErrors.password.message}
+                    </p>
+                  )}
                 </div>
                 {errors && (
                   <p className="text-red-500 text-sm">

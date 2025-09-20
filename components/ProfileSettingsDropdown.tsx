@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useSidebar } from "./ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { type Session } from "next-auth";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
@@ -37,14 +36,18 @@ const ProfileSettingsDropdown = ({ session }: { session: Session }) => {
       >
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm ">
-            <div className="h-8 w-8 rounded-lg relative overflow-hidden">
-              {session.user.image && (
+            <div className="h-8 w-8 rounded-lg relative overflow-hidden flex items-center justify-center">
+              {session.user.image ? (
                 <Image
                   src={session.user.image}
                   fill
                   alt="user-image"
                   className="hover:cursor-e-resize"
                 />
+              ) : (
+                <h1 className="font-semibold text-lg">
+                  {session.user.name?.split("")[0]}
+                </h1>
               )}
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">

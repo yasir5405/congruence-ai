@@ -28,15 +28,19 @@ const ProfileBox = ({ session }: { session: Session }) => {
         >
           <div
             onClick={toggleSidebar}
-            className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg relative overflow-hidden"
+            className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg relative overflow-hidden hover:cursor-e-resize"
           >
-            {user.image && (
+            {user.image ? (
               <Image
                 src={user.image}
                 fill
                 alt="user-image"
                 className="hover:cursor-e-resize"
               />
+            ) : (
+              <h1 className="font-semibold text-lg">
+                {user.name?.split("")[0]}
+              </h1>
             )}
           </div>
 

@@ -16,24 +16,26 @@ import { registerUser } from "@/server/action";
 import { useState } from "react";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { registerInput, registerInputSchema } from "@/lib/inputValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { register, handleSubmit } = useForm<{
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{
     email: string;
     password: string;
     name: string;
-  }>();
+  }>({ resolver: zodResolver(registerInputSchema) });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const signupHandler = async (data: {
-    email: string;
-    password: string;
-    name: string;
-  }) => {
+  const signupHandler = async (data: registerInput) => {
     try {
       setLoading(true);
       setError(null);
@@ -101,7 +103,16 @@ export function SignupForm({
                     type="text"
                     placeholder="John Doe"
                     {...register("name", { required: true })}
+                    className={cn(
+                      errors.name &&
+                        "border-red-500 ring-1 ring-red-500 focus-visible:ring-red-400"
+                    )}
                   />
+                  {errors.name && (
+                    <p className="text-sm text-red-300">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
@@ -110,7 +121,16 @@ export function SignupForm({
                     type="email"
                     placeholder="m@example.com"
                     {...register("email", { required: true })}
+                    className={cn(
+                      errors.email &&
+                        "border-red-500 ring-1 ring-red-500 focus-visible:ring-red-400"
+                    )}
                   />
+                  {errors.email && (
+                    <p className="text-sm text-red-300">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
                 <div className="grid gap-3">
                   <div className="flex items-center">
@@ -126,7 +146,16 @@ export function SignupForm({
                     id="password"
                     type="password"
                     {...register("password", { required: true })}
+                    className={cn(
+                      errors.password &&
+                        "border-red-500 ring-1 ring-red-500 focus-visible:ring-red-400"
+                    )}
                   />
+                  {errors.password && (
+                    <p className="text-sm text-red-300">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
                 {error && <p className="text-red-500 text-xs">{error}</p>}
                 <Button
