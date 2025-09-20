@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import Google from "next-auth/providers/google";
+import { loginInputSchema } from "./inputValidation";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -23,7 +24,11 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         const email = credentials?.email;
         const password = credentials?.password;
-        if (!password) return null;
+        const parsedBody = loginInputSchema.safeParse({ email, password });
+
+        if (!parsedBody.success) {
+          throw new Error(String(parsedBody.error.issues[0].message));
+        }
 
         const foundUser = await prisma.users.findFirst({
           where: {
@@ -31,12 +36,11 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!foundUser) return null;
-        if (!foundUser.password) return null;
+        if (!foundUser) throw new Error("Invalid credentials");
 
-        const isMatch = await bcrypt.compare(password, foundUser.password);
+        const isMatch = await bcrypt.compare(password!, foundUser.password!);
 
-        if (!isMatch) return null;
+        if (!isMatch) throw new Error("Invalid credentials");
 
         return {
           id: String(foundUser.id),
@@ -62,6 +66,7 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/auth/login",
+    error: "/auth/login",
   },
   callbacks: {
     async signIn({ user, account, profile }) {

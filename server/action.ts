@@ -1,4 +1,5 @@
 "use server";
+import { registerInputSchema } from "@/lib/inputValidation";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
@@ -11,7 +12,13 @@ export const registerUser = async ({
   email: string;
   password: string;
 }) => {
-  const existingUser = await prisma.users.findFirst({
+  const parsedBody = registerInputSchema.safeParse({ name, email, password });
+
+  if (!parsedBody.success) {
+    throw new Error(String(parsedBody.error.issues[0].message));
+  }
+
+  const existingUser = await prisma.users.findUnique  ({
     where: {
       email: email,
     },
