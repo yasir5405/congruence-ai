@@ -18,14 +18,23 @@ interface UserPromptInput {
   prompt: string;
 }
 
-const UserPromptInput = () => {
-  const { register, handleSubmit, watch } = useForm<UserPromptInput>();
+interface UserPromptInputProps {
+  onSubmit?: (prompt: string) => void;
+}
+
+const UserPromptInput = ({ onSubmit }: UserPromptInputProps) => {
+  const { register, handleSubmit, watch, reset } = useForm<UserPromptInput>();
 
   const watchPromptValue = watch("prompt", "");
   const disabled = !watchPromptValue.trim();
 
   const handlePromptSubmission = async ({ prompt }: UserPromptInput) => {
-    console.log(prompt);
+    if (onSubmit) {
+      onSubmit(prompt);
+      reset(); // Clear the form after submission
+    } else {
+      console.log(prompt);
+    }
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
